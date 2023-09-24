@@ -13,7 +13,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import tp5.Peliculas;
+import tp.Pelicula;
 
 
 
@@ -24,7 +24,7 @@ public class Principal extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private static DefaultListModel<Categoria>Lista_Peliculas;
+	private static DefaultListModel<Pelicula>Lista_Peliculas;
 
 	/**
 	 * Launch the application.
@@ -34,7 +34,7 @@ public class Principal extends JFrame {
 			public void run() {
 				try {
 					Principal frame = new Principal();
-					Lista_Peliculas = new DefaultListModel<Categoria>();
+					Lista_Peliculas = new DefaultListModel<Pelicula>();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -78,6 +78,7 @@ public class Principal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				contentPane.removeAll();
 				PanelListar panel = new PanelListar();
+				panel.setDefaultListModel(Lista_Peliculas);
 				contentPane.add(panel);
 				contentPane.repaint();
 				contentPane.revalidate();

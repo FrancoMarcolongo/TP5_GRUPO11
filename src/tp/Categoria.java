@@ -1,33 +1,20 @@
 package tp;
 
 public class Categoria {
-	private int ID;
-	private String Nombre;
-	private String Genero;
+	private String genero;
 	
-	public Categoria(){
+	public Categoria(String genero){
+		this.genero = genero;
 	}
-	
-	public int getID() {
-		return ID;
-	}
-	public void setID(int iD) {
-		ID = iD;
-	}
-	public String getNombre() {
-		return Nombre;
-	}
-	public void setNombre(String nombre) {
-		Nombre = nombre;
-	}
+	public Categoria() {}
 	public String getGenero() {
-		return Genero;
+		return genero;
 	}
 	public void setGenero(String genero) {
-		Genero = genero;
+		this.genero = genero;
 	}
 	@Override
 	public String toString() {
-		return "Peliculas ID:" + ID + " Nombre:" + Nombre + " Genero:" + Genero + "";
+		return genero;
 	} 
 }

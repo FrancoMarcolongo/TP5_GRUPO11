@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import tp5.Peliculas;
+import tp.Pelicula;
 
 import javax.swing.JComboBox;
 
@@ -28,18 +28,17 @@ public class PanelAgregar extends JPanel {
 	}
 
 	private static final long serialVersionUID = 1L;
-	private static int id=0;
+	private static int id=1;
 	private JTextField TxtNombre;
-	private JComboBox<String> CBGenero;
+	private JComboBox<Categoria> CBGenero;
 	private JButton Button;
 	private JLabel LVID;
-	private DefaultListModel<Categoria> Lista_Peliculas;
+	private DefaultListModel<Pelicula> Lista_Peliculas;
 		
 	 
 
 	
 	public void dibujarControles() {
-		id++;
 		Font fuenteComun = new Font("Tahoma", Font.PLAIN, 22);	
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{53, 199, 179, 32, 0};
@@ -93,31 +92,29 @@ public class PanelAgregar extends JPanel {
 		gbc_lblNewLabel.gridy = 3;
 		add(lblNewLabel, gbc_lblNewLabel);
 		
-		CBGenero = new JComboBox<String>();
+		CBGenero = new JComboBox<Categoria>();
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 2;
 		gbc_comboBox.gridy = 3;
 		add(CBGenero, gbc_comboBox);
-		CBGenero.addItem("Terror");
-		CBGenero.addItem("Accion");
-		CBGenero.addItem("Suspenso");
-		CBGenero.addItem("Romantica");
+		CBGenero.addItem(new Categoria("Seleccione un genero"));
+		CBGenero.addItem(new Categoria("Terror"));
+		CBGenero.addItem(new Categoria("Accion"));
+		CBGenero.addItem(new Categoria("Suspenso"));
+		CBGenero.addItem(new Categoria("Romantica"));
 		
 		
 		Button = new JButton("Aceptar");
 		Button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(CBGenero.getSelectedIndex()==0) return;
 				if(!TxtNombre.getText().isEmpty()) {
-					String selectedValue =CBGenero.getSelectedItem().toString();
-					Categoria peli = new Categoria();
-					peli.setID(id);
-					peli.setNombre(TxtNombre.getText().toString());
-					peli.setGenero(selectedValue);
+					Categoria selectedValue = (Categoria)CBGenero.getSelectedItem();
+					Pelicula peli = new Pelicula(id++,selectedValue,TxtNombre.getText().toString());
 					Lista_Peliculas.addElement(peli);
 					TxtNombre.setText("");
-					id++;
 					LVID.setText(Integer.toString(id));
 					}
 			}
@@ -130,7 +127,7 @@ public class PanelAgregar extends JPanel {
 		add(Button, gbc_btnNewButton);
 	}
 	
-	public void setDefaultListModel(DefaultListModel<Categoria> peli) {
+	public void setDefaultListModel(DefaultListModel<Pelicula> peli) {
 		this.Lista_Peliculas = peli;
 	}
 }
