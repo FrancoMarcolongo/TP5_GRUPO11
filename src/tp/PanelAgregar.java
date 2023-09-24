@@ -1,4 +1,4 @@
-package tp;
+ package tp;
 
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -7,11 +7,15 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import tp5.Peliculas;
+
 import javax.swing.JComboBox;
 
 public class PanelAgregar extends JPanel {
@@ -24,18 +28,18 @@ public class PanelAgregar extends JPanel {
 	}
 
 	private static final long serialVersionUID = 1L;
-	private JTextField txtCapitulos;
-	private JLabel lblNewLabel;
-	private JComboBox comboBox;
-	private JButton btnNewButton;
-	private JLabel label;
-	//private DefaultListModel<Libro> listModel;
+	private static int id=0;
+	private JTextField TxtNombre;
+	private JComboBox<String> CBGenero;
+	private JButton Button;
+	private JLabel LVID;
+	private DefaultListModel<Categoria> Lista_Peliculas;
 		
 	 
 
 	
 	public void dibujarControles() {
-		
+		id++;
 		Font fuenteComun = new Font("Tahoma", Font.PLAIN, 22);	
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{53, 199, 179, 32, 0};
@@ -53,13 +57,13 @@ public class PanelAgregar extends JPanel {
 		gbc_lblNombreProducto.gridy = 1;
 		add(lblNombreProducto, gbc_lblNombreProducto);
 		
-		label = new JLabel("1");
-		GridBagConstraints gbc_label = new GridBagConstraints();
-		gbc_label.anchor = GridBagConstraints.WEST;
-		gbc_label.insets = new Insets(0, 0, 5, 5);
-		gbc_label.gridx = 2;
-		gbc_label.gridy = 1;
-		add(label, gbc_label);
+		LVID = new JLabel(Integer.toString(id));
+		GridBagConstraints gbc_LVID = new GridBagConstraints();
+		gbc_LVID.anchor = GridBagConstraints.WEST;
+		gbc_LVID.insets = new Insets(0, 0, 5, 5);
+		gbc_LVID.gridx = 2;
+		gbc_LVID.gridy = 1;
+		add(LVID, gbc_LVID);
 		
 		JLabel lblCap = new JLabel("Nombre");
 		lblCap.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -70,17 +74,17 @@ public class PanelAgregar extends JPanel {
 		gbc_lblCap.gridy = 2;
 		add(lblCap, gbc_lblCap);
 		
-		txtCapitulos = new JTextField();
-		txtCapitulos.setFont(fuenteComun);
+		TxtNombre = new JTextField();
+		TxtNombre.setFont(fuenteComun);
 		GridBagConstraints gbc_txtCapitulos = new GridBagConstraints();
 		gbc_txtCapitulos.insets = new Insets(0, 0, 5, 5);
 		gbc_txtCapitulos.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtCapitulos.gridx = 2;
 		gbc_txtCapitulos.gridy = 2;
-		add(txtCapitulos, gbc_txtCapitulos);
-		txtCapitulos.setColumns(10);
+		add(TxtNombre, gbc_txtCapitulos);
+		TxtNombre.setColumns(10);
 		
-		lblNewLabel = new JLabel("Genero");
+		JLabel lblNewLabel = new JLabel("Genero");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
@@ -89,17 +93,33 @@ public class PanelAgregar extends JPanel {
 		gbc_lblNewLabel.gridy = 3;
 		add(lblNewLabel, gbc_lblNewLabel);
 		
-		comboBox = new JComboBox();
+		CBGenero = new JComboBox<String>();
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 2;
 		gbc_comboBox.gridy = 3;
-		add(comboBox, gbc_comboBox);
+		add(CBGenero, gbc_comboBox);
+		CBGenero.addItem("Terror");
+		CBGenero.addItem("Accion");
+		CBGenero.addItem("Suspenso");
+		CBGenero.addItem("Romantica");
 		
-		btnNewButton = new JButton("Aceptar");
-		btnNewButton.addActionListener(new ActionListener() {
+		
+		Button = new JButton("Aceptar");
+		Button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(!TxtNombre.getText().isEmpty()) {
+					String selectedValue =CBGenero.getSelectedItem().toString();
+					Categoria peli = new Categoria();
+					peli.setID(id);
+					peli.setNombre(TxtNombre.getText().toString());
+					peli.setGenero(selectedValue);
+					Lista_Peliculas.addElement(peli);
+					TxtNombre.setText("");
+					id++;
+					LVID.setText(Integer.toString(id));
+					}
 			}
 		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
@@ -107,6 +127,10 @@ public class PanelAgregar extends JPanel {
 		gbc_btnNewButton.gridx = 1;
 		gbc_btnNewButton.gridy = 4;
 		gbc_btnNewButton.fill = GridBagConstraints.HORIZONTAL; 
-		add(btnNewButton, gbc_btnNewButton);
+		add(Button, gbc_btnNewButton);
+	}
+	
+	public void setDefaultListModel(DefaultListModel<Categoria> peli) {
+		this.Lista_Peliculas = peli;
 	}
 }
